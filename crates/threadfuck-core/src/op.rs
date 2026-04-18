@@ -57,23 +57,23 @@ impl Op {
     #[must_use]
     pub const fn as_char(self) -> char {
         match self {
-            Self::MoveLeft => ">",
-            Self::MoveRight => "<",
-            Self::Increment => "+",
-            Self::Decrement => "-",
-            Self::Output => ".",
-            Self::Input => ",",
-            Self::LoopStart => "[",
-            Self::LoopEnd => "]",
-            Self::ForkTask => "t",
-            Self::Yield => "y",
-            Self::Halt => "!",
+            Self::MoveLeft => '>',
+            Self::MoveRight => '<',
+            Self::Increment => '+',
+            Self::Decrement => '-',
+            Self::Output => '.',
+            Self::Input => ',',
+            Self::LoopStart => '[',
+            Self::LoopEnd => ']',
+            Self::ForkTask => 't',
+            Self::Yield => 'y',
+            Self::Halt => '!',
         }
     }
 }
 
 impl TryFrom<char> for Op{
-    type Error = ThreadFuckError;
+    type Error = ThreadfuckError;
     
     fn try_from(value: char) -> Result<Self,Self::Error> {
         match value { 
