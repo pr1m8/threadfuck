@@ -57,8 +57,8 @@ impl Op {
     #[must_use]
     pub const fn as_char(self) -> char {
         match self {
-            Self::MoveLeft => '>',
-            Self::MoveRight => '<',
+            Self::MoveRight=> '>',
+            Self::MoveLeft => '<',
             Self::Increment => '+',
             Self::Decrement => '-',
             Self::Output => '.',
@@ -88,8 +88,41 @@ impl TryFrom<char> for Op{
             't' => Ok(Self::ForkTask),
             'y' => Ok(Self::Yield),
             '!' => Ok(Self::Halt),
-            other => Err(ThreadfuckError::InvalidOpcode((other)))
+            other => Err(ThreadfuckError::InvalidOpcode(other))
 
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::error::ThreadfuckError;
+
+    #[test]
+    fn converts_valid_source_chars_into_ops() {
+        assert_eq!(Op::try_from('>'), Ok(Op::MoveRight));
+        assert_eq!(Op::try_from('<'), Ok(Op::MoveLeft));
+        assert_eq!(Op::try_from('+'), Ok(Op::Increment));
+        assert_eq!(Op::try_from('-'), Ok(Op::Decrement));
+        assert_eq!(Op::try_from('.'), Ok(Op::Output));
+        assert_eq!(Op::try_from(','), Ok(Op::Input));
+        assert_eq!(Op::try_from('['), Ok(Op::LoopStart));
+        assert_eq!(Op::try_from(']'), Ok(Op::LoopEnd));
+        assert_eq!(Op::try_from('t'), Ok(Op::ForkTask));
+        assert_eq!(Op::try_from('y'), Ok(Op::Yield));
+        assert_eq!(Op::try_from('!'), Ok(Op::Halt));
+    }
+
+    #[test]
+    fn rejects_invalid_source_chars() {
+        assert_eq!(Op::try_from('x'), Err(ThreadfuckError::InvalidOpcode('x')));
+    }
+
+    #[test]
+    fn converts_ops_back_to_chars() {
+        assert_eq!(Op::MoveRight.as_char(), '>');
+        assert_eq!(Op::ForkTask.as_char(), 't');
+        assert_eq!(Op::Halt.as_char(), '!');
     }
 }
