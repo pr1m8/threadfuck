@@ -1,0 +1,6 @@
+[book]
+title = "Threadfuck Book"
+authors = ["William R. Astley"]
+language = "en"
+multilingual = false
+src = "src"
