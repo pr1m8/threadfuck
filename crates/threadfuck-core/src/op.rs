@@ -49,3 +49,23 @@ pub enum Op {
     /// Halt the current task.
     Halt,
 }
+
+impl Op {
+    /// Return the source character for this opcode.
+    #[must_use]
+    pub const fn as_char(self) -> char {
+        match self {
+            Self::MoveLeft => ">",
+            Self::MoveRight => "<",
+            Self::Increment => "+",
+            Self::Decrement => "-",
+            Self::Output => ".",
+            Self::Input => ",",
+            Self::LoopStart => "[",
+            Self::LoopEnd => "]",
+            Self::ForkTask => "t",
+            Self::Yield => "y",
+            Self::Halt => "!",
+        }
+    }
+}
