@@ -11,6 +11,8 @@
 //! a minimal concurrency-oriented instruction set. Each valid source
 //! character maps to exactly one ``Op`` variant.
 
+use std::thread::Thread;
+
 use crate::error::ThreadfuckError;
 
 /// A single parsed threadfuck instruction.
@@ -66,6 +68,28 @@ impl Op {
             Self::ForkTask => "t",
             Self::Yield => "y",
             Self::Halt => "!",
+        }
+    }
+}
+
+impl TryFrom<char> for Op{
+    type Error = ThreadFuckError;
+    
+    fn try_from(value: char) -> Result<Self,Self::Error> {
+        match value { 
+            '>' => Ok(Self::MoveRight),
+            '<' => Ok(Self::MoveLeft),
+            '+' => Ok(Self::Increment),
+            '-' => Ok(Self::Decrement),
+            '.' => Ok(Self::Output),
+            ',' => Ok(Self::Input),
+            '[' => Ok(Self::LoopStart),
+            ']' => Ok(Self::LoopEnd),
+            't' => Ok(Self::ForkTask),
+            'y' => Ok(Self::Yield),
+            '!' => Ok(Self::Halt),
+            other => Err(ThreadfuckError::InvalidOpcode((other)))
+
         }
     }
 }
