@@ -1,4 +1,7 @@
 //! Core library for the Threadfuck interpreter.
+//!
+//! This crate contains the parser, program model, and runtime building blocks
+//! for the Threadfuck language.
 
 pub mod error;
 pub mod op;
